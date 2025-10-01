@@ -49,15 +49,14 @@ public class GeneratePOJOSamples {
                 int volume = random.nextInt(factor) + 1;
 
                 for (int i = 1; i <= volume; i++) {
-                    String randomRelationshipType = RelationshipTypes[
-                            random.nextInt(RelationshipTypes.length - 1)];
+                    String value = "million_USD";
 
                     GremlinEdge edge = GremlinEdge.builder()
                             .id(UUID.randomUUID().toString())
                             .sourceVertexInfo(GremlinEdgeVertexInfo.fromGremlinVertex(vertex))
                             .destinationVertexInfo(getRandomVertex(random, vertex.getId(), vertices))
                             .partitionKey(vertex.getPartitionKey())
-                            .label(randomRelationshipType)
+                            .label(value)
                             .properties(new HashMap<>())
                             .build();
                     edges.add(edge);
@@ -81,21 +80,19 @@ public class GeneratePOJOSamples {
     }
 
     private static GremlinVertex generateVertex(Random random) {
-        String firstName = firstNames[random.nextInt(firstNames.length - 1)];
-        String lastName = lastNames[random.nextInt(lastNames.length - 1)];
         String country = countries[random.nextInt(countries.length - 1)];
-        String emailProvider = emailProviders[random.nextInt(emailProviders.length - 1)];
+        String sector = sectors[random.nextInt(sectors.length - 1)];
 
         GremlinVertex vertex = GremlinVertex.builder()
                 .id(UUID.randomUUID().toString())
-                .label("PERSON")
+                .label("Country_sector")
                 .properties(new HashMap<>())
                 .partitionKey(GremlinPartitionKey.builder().fieldName("country").value(country).build())
                 .build();
 
-        vertex.addProperty("firstName", firstName);
-        vertex.addProperty("lastName", lastName);
-        vertex.addProperty("ElectronicMail", String.format("%s.%s@%s.com", firstName, lastName, emailProvider));
+        vertex.addProperty("country", country);
+        vertex.addProperty("sector", sector);
+        vertex.addProperty("id_str", String.format("%s_%s", country, sector));
         return vertex;
     }
 }

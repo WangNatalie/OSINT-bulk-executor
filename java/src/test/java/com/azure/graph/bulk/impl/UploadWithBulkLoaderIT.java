@@ -17,8 +17,8 @@ import com.azure.graph.bulk.impl.tinkerpop.GremlinSource;
 import com.azure.graph.bulk.sample.DatabaseSettings;
 import com.azure.graph.bulk.sample.GenerateDomainSamples;
 import com.azure.graph.bulk.sample.UploadWithBulkLoader;
-import com.azure.graph.bulk.sample.model.PersonVertex;
-import com.azure.graph.bulk.sample.model.RelationshipEdge;
+import com.azure.graph.bulk.sample.model.CountrySectorVertex;
+import com.azure.graph.bulk.sample.model.SupplyEdge;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,8 +50,8 @@ class UploadWithBulkLoaderIT {
     @Test
     void UploadWithBulkLoaderTest() throws GremlinExecutionException {
         // Generate vertices and edges for testing
-        List<PersonVertex> vertices = GenerateDomainSamples.getVertices(10);
-        List<RelationshipEdge> edges = GenerateDomainSamples.getEdges(vertices, 5);
+        List<CountrySectorVertex> vertices = GenerateDomainSamples.getVertices(10);
+        List<SupplyEdge> edges = GenerateDomainSamples.getEdges(vertices, 5);
 
         // Upload
         UploadWithBulkLoader loader = new UploadWithBulkLoader();
@@ -63,14 +63,14 @@ class UploadWithBulkLoaderIT {
 
         gremlinExecutor.connect();
         GremlinExecutor.GremlinExecutorResult results =
-                gremlinExecutor.executeString("g.V().hasLabel('PERSON')");
+                gremlinExecutor.executeString("g.V().hasLabel('Country_sector')");
         List<GremlinSource> gremlinVertices = gremlinResultReader.createResponseFromResultList(results.results);
 
         // Verify data upserted is equal to data read using tinkerpop
         assertEquals(vertices.size(), gremlinVertices.size());
         assertEquals(vertices.get(0).id, gremlinVertices.get(0).getId());
-        assertEquals("PERSON", gremlinVertices.get(0).getLabel());
+        assertEquals("Country_sector", gremlinVertices.get(0).getLabel());
         assertEquals("vertex", gremlinVertices.get(0).getType());
-        assertEquals(vertices.get(0).country, gremlinVertices.get(0).getProperties().get("country"));
+        assertEquals(vertices.get(0).pk, gremlinVertices.get(0).getProperties().get("pk"));
     }
 }

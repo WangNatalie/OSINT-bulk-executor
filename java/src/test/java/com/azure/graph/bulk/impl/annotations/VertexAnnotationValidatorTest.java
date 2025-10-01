@@ -3,7 +3,7 @@
 
 package com.azure.graph.bulk.impl.annotations;
 
-import com.azure.graph.bulk.sample.model.PersonVertex;
+import com.azure.graph.bulk.sample.model.CountrySectorVertex;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,7 +24,7 @@ class VertexAnnotationValidatorTest {
 
     @Test
     void ClassLevelLabelPassesValidation() {
-        List<String> results = validator.validate(PersonVertex.class);
+        List<String> results = validator.validate(CountrySectorVertex.class);
 
         assertEquals(0, results.size());
     }

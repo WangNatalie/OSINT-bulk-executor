@@ -3,7 +3,6 @@
 
 package com.azure.graph.bulk.impl.model;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +17,7 @@ public class GremlinEdge {
 
     public GremlinEdge() {
         id = UUID.randomUUID().toString();
-        properties = Collections.unmodifiableMap(new HashMap<>());
+        properties = new HashMap<>();
     }
 
     public GremlinEdge(GremlinEdgeBuilder builder) {
@@ -152,7 +151,7 @@ public class GremlinEdge {
         private Map<String, Object> properties;
 
         GremlinEdgeBuilder() {
-            properties = Collections.unmodifiableMap(new HashMap<>());
+            properties = new HashMap<>();
         }
 
         public GremlinEdge.GremlinEdgeBuilder id(String id) {

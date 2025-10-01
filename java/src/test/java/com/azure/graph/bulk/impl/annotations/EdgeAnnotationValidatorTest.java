@@ -5,7 +5,7 @@ package com.azure.graph.bulk.impl.annotations;
 
 import com.azure.graph.bulk.impl.annotations.GremlinEdgeVertex.Direction;
 import com.azure.graph.bulk.impl.model.GremlinEdgeVertexInfo;
-import com.azure.graph.bulk.sample.model.RelationshipEdge;
+import com.azure.graph.bulk.sample.model.SupplyEdge;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,7 +26,7 @@ class EdgeAnnotationValidatorTest {
 
     @Test
     void ClassLevelLabelPassesValidation() {
-        List<String> results = validator.validate(RelationshipEdge.class);
+        List<String> results = validator.validate(SupplyEdge.class);
 
         assertEquals(0, results.size());
     }

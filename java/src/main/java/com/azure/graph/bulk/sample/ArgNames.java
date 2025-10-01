@@ -4,8 +4,8 @@
 package com.azure.graph.bulk.sample;
 
 public final class ArgNames {
-    public static final String VERTEX_COUNT = "vertexcount";
-    public static final String EDGE_MAX = "edgemax";
-    public static final String DOMAIN_SAMPLE = "domainSample";
+    public static final String CSV_FILE = "csvFile";
     public static final String CREATE_DOCS = "createDocuments";
+    public static final String MIN_VALUE = "minValue";
+    public static final String THROUGHPUT = "throughput";
 }

@@ -14,7 +14,7 @@
         <cosmosSDKVersion>4.29.1</cosmosSDKVersion>
         <commonsVersion>3.12.0</commonsVersion>
         <snapshotDependencyAllowed>true</snapshotDependencyAllowed>
-        <skipIntegrationTests>true</skipIntegrationTests>
+        <skipIntegrationTests>false</skipIntegrationTests>
     </properties>
 
     <dependencies>

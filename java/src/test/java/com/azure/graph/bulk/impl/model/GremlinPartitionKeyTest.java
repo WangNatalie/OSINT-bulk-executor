@@ -3,7 +3,7 @@
 
 package com.azure.graph.bulk.impl.model;
 
-import com.azure.graph.bulk.sample.model.PersonVertex;
+import com.azure.graph.bulk.sample.model.CountrySectorVertex;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -105,7 +105,7 @@ class GremlinPartitionKeyTest {
     @Test
     void ThrowsExceptionWithNonPrimitiveDataType() {
         GremlinPartitionKey.GremlinPartitionKeyBuilder keyBuilder =
-                GremlinPartitionKey.builder().fieldName("bad").value(PersonVertex.builder().build());
+                GremlinPartitionKey.builder().fieldName("bad").value(CountrySectorVertex.builder().build());
 
         assertThrows(IllegalStateException.class, keyBuilder::build);
     }

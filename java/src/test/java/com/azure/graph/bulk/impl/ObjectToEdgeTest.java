@@ -8,18 +8,16 @@ import com.azure.graph.bulk.impl.model.AnnotationValidationException;
 import com.azure.graph.bulk.impl.model.GremlinEdge;
 import com.azure.graph.bulk.impl.model.GremlinEdgeVertexInfo;
 import com.azure.graph.bulk.impl.model.GremlinPartitionKey;
-import com.azure.graph.bulk.sample.model.RelationshipEdge;
+import com.azure.graph.bulk.sample.model.SupplyEdge;
 import org.junit.jupiter.api.Test;
-
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectToEdgeTest {
 
     @Test
-    void RelationshipEdgeToGremlinEdgeTest() {
-        RelationshipEdge edge = getRelationshipGraphEdge();
+    void SupplyEdgeToGremlinEdgeTest() {
+        SupplyEdge edge = getSupplyEdge();
         GremlinEdge results = ObjectToEdge.toGremlinEdge(edge);
 
         assertEquals(edge.destinationVertexInfo.getId(), results.getDestinationVertexInfo().getId());
@@ -34,17 +32,18 @@ class ObjectToEdgeTest {
 
     }
 
-    private RelationshipEdge getRelationshipGraphEdge() {
-        RelationshipEdge edge = RelationshipEdge.builder()
+    private SupplyEdge getSupplyEdge() {
+        SupplyEdge edge = SupplyEdge.builder()
                 .sourceVertexInfo(GremlinEdgeVertexInfo.builder()
-                        .id(UUID.randomUUID().toString())
-                        .label("REL1")
-                        .partitionKey(GremlinPartitionKey.builder().value("rel1").build()).build())
+                        .id("USA_MANUFACTURING")
+                        .label("Country_sector")
+                        .partitionKey(GremlinPartitionKey.builder().value("USA_MANUFACTURING").build()).build())
                 .destinationVertexInfo(GremlinEdgeVertexInfo.builder()
-                        .id(UUID.randomUUID().toString())
-                        .label("REL2")
-                        .partitionKey(GremlinPartitionKey.builder().value("rel2").build()).build())
-                .relationshipType("friend")
+                        .id("CHINA_SERVICES")
+                        .label("Country_sector")
+                        .partitionKey(GremlinPartitionKey.builder().value("CHINA_SERVICES").build()).build())
+                .label("supplies")
+                .value(1000000.0)
                 .build();
 
         return edge;

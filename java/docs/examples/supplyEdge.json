@@ -1,0 +1,23 @@
+{
+    "id": "USA_MANUFACTURING",
+    "label": "Country_sector",
+    "pk": "USA_MANUFACTURING",
+    "country": [
+        {
+            "id": "582bf396-8b7c-4632-84df-9eda29bd70d9",
+            "_value": "USA"
+        }
+    ],
+    "sector": [
+        {
+            "id": "92fe831d-6eb7-41e4-b945-b9f8c5576a1c",
+            "_value": "MANUFACTURING"
+        }
+    ],
+    "id_str": [
+        {
+            "id": "88062553-49ac-4810-9690-4c2333561332",
+            "_value": "USA_MANUFACTURING"
+        }
+    ]
+}

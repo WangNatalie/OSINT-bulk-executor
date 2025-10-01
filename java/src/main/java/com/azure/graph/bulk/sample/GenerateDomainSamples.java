@@ -5,8 +5,8 @@ package com.azure.graph.bulk.sample;
 
 import com.azure.graph.bulk.impl.model.GremlinEdgeVertexInfo;
 import com.azure.graph.bulk.sample.model.DataGenerationException;
-import com.azure.graph.bulk.sample.model.PersonVertex;
-import com.azure.graph.bulk.sample.model.RelationshipEdge;
+import com.azure.graph.bulk.sample.model.CountrySectorVertex;
+import com.azure.graph.bulk.sample.model.SupplyEdge;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,32 +24,33 @@ public class GenerateDomainSamples {
         throw new IllegalStateException("Utility class, should not be constructed");
     }
 
-    public static List<PersonVertex> getVertices(int volume) {
+    public static List<CountrySectorVertex> getVertices(int volume) {
         try {
             SecureRandom random = SecureRandom.getInstanceStrong();
 
             return IntStream.range(1, volume + 1).mapToObj(
-                            i -> generatePerson(random))
+                            i -> generateCountrySector(random))
                     .collect(Collectors.toCollection(ArrayList::new));
         } catch (NoSuchAlgorithmException e) {
             throw new DataGenerationException(e);
         }
     }
 
-    public static List<RelationshipEdge> getEdges(List<PersonVertex> vertices, int factor) {
-        ArrayList<RelationshipEdge> edges = new ArrayList<>();
+    public static List<SupplyEdge> getEdges(List<CountrySectorVertex> vertices, int factor) {
+        ArrayList<SupplyEdge> edges = new ArrayList<>();
         try {
             SecureRandom random = SecureRandom.getInstanceStrong();
 
-            for (PersonVertex vertex : vertices) {
+            for (CountrySectorVertex vertex : vertices) {
                 int volume = random.nextInt(factor) + 1;
                 for (int i = 1; i <= volume; i++) {
 
-                    edges.add(RelationshipEdge.builder()
+                    edges.add(SupplyEdge.builder()
                             .sourceVertexInfo(GremlinEdgeVertexInfo.fromGremlinVertex(vertex))
                             .destinationVertexInfo(getRandomVertex(random, vertex.id, vertices))
-                            .relationshipType(SeedGenerationValues.RelationshipTypes[
-                                    random.nextInt(SeedGenerationValues.RelationshipTypes.length - 1)]).build());
+                            .label("supplies")
+                            .value(random.nextDouble() * 1000000.0)
+                            .build());
                 }
             }
         } catch (NoSuchAlgorithmException e) {
@@ -59,10 +59,10 @@ public class GenerateDomainSamples {
         return edges;
     }
 
-    private static GremlinEdgeVertexInfo getRandomVertex(Random random, String sourceId, List<PersonVertex> vertices) {
+    private static GremlinEdgeVertexInfo getRandomVertex(Random random, String sourceId, List<CountrySectorVertex> vertices) {
         GremlinEdgeVertexInfo vertex = null;
         while (vertex == null) {
-            PersonVertex potentialVertex = vertices.get(random.nextInt(vertices.size() - 1));
+            CountrySectorVertex potentialVertex = vertices.get(random.nextInt(vertices.size() - 1));
             if (!Objects.equals(potentialVertex.id, sourceId)) {
                 vertex = GremlinEdgeVertexInfo.fromGremlinVertex(potentialVertex);
             }
@@ -70,19 +70,17 @@ public class GenerateDomainSamples {
         return vertex;
     }
 
-    private static PersonVertex generatePerson(Random random) {
-        String firstName = firstNames[random.nextInt(firstNames.length - 1)];
-        String lastName = lastNames[random.nextInt(lastNames.length - 1)];
+    private static CountrySectorVertex generateCountrySector(Random random) {
         String country = countries[random.nextInt(countries.length - 1)];
-        String emailProvider = emailProviders[random.nextInt(emailProviders.length - 1)];
+        String sector = sectors[random.nextInt(sectors.length - 1)];
+        String id = country + "_" + sector;
 
-        return PersonVertex.builder()
-                .id(UUID.randomUUID().toString())
-                .isSpecial(false)
-                .firstName(firstName)
-                .lastName(lastName)
-                .email(String.format("%s.%s@%s.com", firstName, lastName, emailProvider))
+        return CountrySectorVertex.builder()
+                .id(id)
+                .pk(id)
                 .country(country)
+                .sector(sector)
+                .idStr(id)
                 .build();
     }
 }
